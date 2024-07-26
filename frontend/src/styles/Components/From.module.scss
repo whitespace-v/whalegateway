@@ -1,0 +1,17 @@
+.From{
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  &__favicon{
+    border-radius: 6px;
+    height: 32px;
+    width: 32px;
+    background-position: 0 0;
+    background-repeat: no-repeat;
+    background-size: contain;
+  }
+  &__link{
+    font-size: 18px;
+    font-weight: 4;
+  }
+}

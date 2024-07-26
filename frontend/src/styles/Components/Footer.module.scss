@@ -1,0 +1,45 @@
+@import "../variables";
+.Footer{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 32px;
+  &__secure{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    &-icon{
+      height: 25px;
+      width: 25px;
+      background-position: 50% 50%;
+      background-repeat: no-repeat;
+      background-size: contain;
+    }
+    &-text{
+      font-size: 16px;
+      font-weight: 4;
+    }
+  }
+  &__verification{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    &_item{
+      height: 45px;
+      width: 120px;
+      background-position: 50% 50%;
+      background-repeat: no-repeat;
+      background-size: contain;
+    }
+  }
+  &__support-text{
+    font-weight: 4;
+    span{
+      color: $accent;
+      text-decoration: underline;
+    }
+
+  }
+}

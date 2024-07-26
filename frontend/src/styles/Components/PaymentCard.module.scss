@@ -1,0 +1,65 @@
+@import "../variables";
+.PaymentCard {
+  &__flow{
+    border: 2px solid $accent;
+    border-radius: 12px;
+    padding: 20px;
+    background-color: rgba($accent, 0.1);
+    &_logo{
+      font-size: 34px;
+      span{
+        color: $accent;
+      }
+    }
+    &_card-number{
+      margin: 30px 0;
+      font-size: 48px;
+      font-weight: 2;
+      display: flex;
+      justify-content: center;
+      gap: 32px;
+    }
+    &_valid-thru{
+      margin-right: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      &__payment_type{
+        background-position: 0 50%;
+        width: 90%;
+        height: 40px;
+        background-size: contain;
+        background-repeat: no-repeat;
+      }
+      &-title{
+        &_element{
+          color: $gray;
+          margin-right: 22px;
+        }
+      }
+      &_date{
+        color: $gray;
+      }
+    }
+    &_recipient{
+      font-size: 32px;
+      font-weight: 3;
+      margin-top: 80px;
+      color: $gray;
+    }
+  }
+}
+.PaymentCard{
+  &__flow.alfabank{
+    border: 2px solid $red;
+    background-color: rgba($red, 0.1);
+  }
+  &__flow.sberbank{
+    border: 2px solid $green;
+    background-color: rgba($green, 0.1);
+  }
+  &__flow.tinkoff{
+    border: 2px solid $yellow;
+    background-color: rgba($yellow, 0.1);
+  }
+}

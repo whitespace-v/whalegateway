@@ -1,0 +1,17 @@
+@import "variables";
+@import "fonts";
+
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'WUbuntu', sans-serif !important;
+  text-decoration: none;
+  color: $black;
+  transition: all 200ms linear;
+}
+
+html{
+  background-color: $background_gray !important;
+  scroll-behavior: smooth;
+}

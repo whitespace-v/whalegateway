@@ -1,0 +1,48 @@
+version: "3.9"
+services:
+  postgres:
+    image: postgres:15.2-alpine
+    hostname: db
+    volumes:
+      - eq-database:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    env_file:
+      - .postgres.env
+    restart: always
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+
+  frontend:
+    image: frontend
+    restart: always
+    ports:
+      - 3000:3000
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.frontend
+    develop:
+      watch:
+        - action: sync
+          path: ./frontend/
+          target: /app/
+          ignore:
+            - node_modules/
+        - action: rebuild
+          path: ./frontend/package.json
+  backend:
+    restart: always
+    hostname: backend
+    image: backend
+    ports:
+      - 5000:5000
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.backend
+
+volumes:
+  eq-database:
+

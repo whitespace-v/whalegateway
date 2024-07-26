@@ -1,0 +1,4 @@
+### Get All Merchants
+GET http://localhost:5000/merchant
+### Get Merchant by UID
+GET http://localhost:5000/merchant/2329c874-f1dd-4165-b78d-26910427a7fa

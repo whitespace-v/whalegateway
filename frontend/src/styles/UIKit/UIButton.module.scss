@@ -1,0 +1,29 @@
+@import "../variables";
+.UIButton{
+  border: 2px solid $accent;
+  background-color: rgba($accent, 0.1);
+  color: $black;
+  padding: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: 5;
+}
+.UIButton:hover{
+  background-color: $accent;
+  color: $background_gray;
+}
+.UIButton:active{
+  transition: none;
+  background-color: $gray;
+  color: $accent;
+}
+.UIButton.disabled{
+  background-color: rgba($accent, 0.1);
+  cursor: default;
+  border: 2px solid $gray;
+  color: $black;
+}

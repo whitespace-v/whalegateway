@@ -1,0 +1,18 @@
+@import "../variables";
+.PageTitle{
+  clear: inherit;
+  &__title{
+    color: $accent;
+    font-size: 38px;
+    font-weight: 5;
+  }
+  &__amount{
+    font-size: 18px;
+    font-weight: 4;
+    margin: 12px 0 28px 0;
+    span{
+      color: $accent;
+      font-weight: 6;
+    }
+  }
+}

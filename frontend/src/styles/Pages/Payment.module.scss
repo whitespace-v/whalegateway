@@ -1,0 +1,39 @@
+@import "../variables";
+.Payment{
+  &__content{
+    &_welcome{
+      font-size: 42px;
+      font-weight: 3;
+      text-align: center;
+      margin: 14px 0 28px 0;
+    }
+    &_payment-type{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 30px;
+      &_item{
+        width: 90%;
+        height: 80px;
+        border: 2px solid $gray;
+        border-radius: 12px;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        &-image{
+          width: 50%;
+          height: 80%;
+          background-position: 50% 50%;
+          background-repeat: no-repeat;
+          background-size: contain;
+        }
+      }
+      &_item:hover{
+        border: 2px solid $accent;
+        background-color: rgba($accent, 0.1);
+      }
+    }
+  }
+}

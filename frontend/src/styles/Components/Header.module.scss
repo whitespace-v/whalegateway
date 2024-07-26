@@ -1,0 +1,21 @@
+@import "../variables";
+.Header{
+  clear: inherit;
+  &__title{
+    display: flex;
+    flex-direction: column;
+    &-logo{
+      font-size: 64px;
+      font-weight: 5;
+      line-height: 30px;
+      span{
+        color: $accent;
+        font-weight: 4;
+      }
+    }
+    &-text{
+      font-size: 39.9px;
+      font-weight: 3;
+    }
+  }
+}

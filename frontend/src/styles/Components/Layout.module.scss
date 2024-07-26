@@ -1,0 +1,20 @@
+.Layout{
+  width: 1620px;
+  margin: 80px 150px 20px 150px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: calc(100vh - 100px);
+  & > *:nth-child(2) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 1620px) {
+  .Layout{
+    width: calc(360px + (1620 - 360) * ((100vw - 360px) / (1620 - 360)));;
+  }
+}
