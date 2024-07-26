@@ -7,7 +7,7 @@ const Dummy = () => {
             {
                 "merchant_uid": '4529c874-f1dd-4165-b78d-26910427a7fa',
                 "secret_key": "KShasdjkasdduioh123ey",
-                "amount": 9,
+                "amount": 5,
                 "currency": "RUB",
                 "description": "Заказ №19",
                 "metadata": {

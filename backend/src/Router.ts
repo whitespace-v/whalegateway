@@ -13,5 +13,5 @@ export class Router {
         .get('/verify', ({query: init_session_fetch_request_data}: {query: __init_session_fetch_request_data}) => SessionController.verify(init_session_fetch_request_data))
     static payment = new Elysia()
         .post('/init', ({body: init_payment_data}: {body: __init_payment_data}) => PaymentController.init(init_payment_data))
-        .get('/expect', ({query: session_uid}: {query: {session_uid: string}}) => PaymentController.expect(session_uid.session_uid))
+        .post('/paid', ({body}: {body: any}) => PaymentController.paid(body))
 }

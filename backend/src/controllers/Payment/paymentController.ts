@@ -58,36 +58,23 @@ export class PaymentController {
         }
     }
     ///** ---- get card login & pwd & number and wait payment---- **///
-    static async expect(session_uid: string) {
-        try{
-            //    todo: redo to unique and dont doubling payments, работает со второго запроса 
-            const payment = await Pool.X.payment.findUnique({where:{session_uid}})
-            const session = await Pool.X.session.findUnique({where:{uid: session_uid}})
-            if (payment && session){
-                const card = await Pool.X.card.findUnique({where:{id: payment.card_id}})
-                if (card) {    
-                    const {data: transaction} = await axios.get(process.env.DRIVER + '/expect', {
-                        params: {
-                            "login": card.card_login,
-                            "password": card.card_password,
-                            "card_phone": card.card_phone,
-                            "payment_type": card.payment_type,
-                            "timestamp": payment.created_at,
-                            "amount": session.amount
-                        }
-                    })
-
-                    if (transaction.status === "SUCCESS"){  
+    static async paid(query: any) {
+        try{ 
+            query = JSON.parse(query)
+            const payment = await Pool.X.payment.findUnique({where:{session_uid: query.session_uid}})
+            const session = await Pool.X.session.findUnique({where:{uid: query.session_uid}})
+            if (payment && session){  
+                    if (query.status === "SUCCESS"){  
                         await Pool.X.payment.update({
-                            where: {session_uid},
+                            where: {session_uid: query.session_uid},
                             data: {
                                 time_closed: Date.now().toString(),
-                                time_paid: transaction.data.time_paid,
-                                from: transaction.data.from
+                                time_paid: query.data.time_paid.toString(),
+                                from: query.data.from
                             }
                         })
                         await Pool.X.session.update({
-                            where: {uid: session_uid},
+                            where: {uid: query.session_uid},
                             data: {
                                 paid: true,
                                 status: "SUCCESS"
@@ -99,11 +86,7 @@ export class PaymentController {
                         Console.log('yellow','[~] not paid yet')
                         return {"status_code": 202, "message": "Not paid yet"}
                     }
-                } else {
-                    ///** ---- card not found  ---- **///
-                    Console.log('yellow','[!] card not found')
-                    return {"status_code": 400, "message": 'card not found'}
-                }
+            
             } else{
                 ///** ---- payment not found  ---- **///
                 Console.log('yellow','[!] payment not found')
