@@ -42,6 +42,7 @@ interface ISessionState extends __session_data, IFetchedSession{
     transaction_id: number,
     status: __session_status
     timeout: number
+    payment_id: number
 }
 
 const initialState: ISessionState = {
@@ -60,7 +61,8 @@ const initialState: ISessionState = {
     domain: '',
     time_opened: '0',
     status: __session_status["PROCESS"],
-    timeout: 0
+    timeout: 0,
+    payment_id: 0
 }
 
 export const sessionSlice = createSlice({
@@ -125,8 +127,32 @@ export const sessionSlice = createSlice({
             state.domain = action.payload.domain
             state.timeout = action.payload.session.timeout
         },
-        _sessionVerified_exited(state, action: PayloadAction<{session: {status: __session_status}}>){
-            state.status = action.payload.session.status           
+        _sessionVerified_success(state, action: PayloadAction<
+            {
+                session: {
+                    status: __session_status,
+                    currency: string,
+                    amount: number,
+                    email: string
+                },
+                payment: {
+                    payment_type: __payment_types,
+                    payment_id: number
+                },
+                domain: string
+            }
+            >){
+            state.status = action.payload.session.status       
+            state.currency = action.payload.session.currency
+            state.amount = action.payload.session.amount
+            state.email = action.payload.session.email
+            state.payment_type = action.payload.payment.payment_type
+            state.payment_id = action.payload.payment.payment_id
+            state.domain = action.payload.domain    
+        },
+        _sessionVerified_exited(state, action: PayloadAction<{session: {status: __session_status, domain: string}}>){
+            state.status = action.payload.session.status  
+            state.domain = action.payload.session.domain             
         }
     }
 })

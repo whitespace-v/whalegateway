@@ -125,13 +125,12 @@ export class SessionController {
                                         status: session.status,
                                         currency: session.currency,
                                         amount: session.amount,
+                                        email: payment.email
                                     },
                                     payment: {
                                         payment_type: payment.payment_type,
-                                        card_details: {
-                                            card_reciever: card.card_receiver,
-                                            card_number: card.card_number
-                                        }
+                                        payment_id: payment.id
+
                                     },
                                     domain: merchant.domain
                                 }
@@ -139,7 +138,10 @@ export class SessionController {
                         }
                         else if (session.status === "EXITED") {
                             Console.log('green', '[!] EXITED')
-                            return {session: {status: "EXITED"}}
+                            return {session: {
+                                status: "EXITED",
+                                domain: merchant.domain
+                            }}
                         }
                         else if (session.status === "ERROR") {
                             Console.log('green', '[!] ERROR')

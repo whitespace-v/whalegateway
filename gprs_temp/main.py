@@ -20,7 +20,7 @@ if __name__ == '__main__':
 
     driver.get_last_sms()
 
-
+""
     # with Pool(len(gsms)) as p:
     #     p.map(driver.last_sms, gsms)
 

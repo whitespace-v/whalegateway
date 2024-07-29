@@ -22,9 +22,12 @@ const PaymentSuspense = () => {
     const merchant_uid = searchParams.get("merchant_uid")
 
     useEffect(() => {
-        if (session_uid && merchant_uid) {
-            patch(_verify_session({ session_uid, merchant_uid }))
-        } else navigate('/dummy')
+        const intervalId = setInterval(() => {
+            if (session_uid && merchant_uid) {
+                patch(_verify_session({ session_uid, merchant_uid }))
+            } else navigate('/dummy')
+        }, 5000)
+        return () => clearInterval(intervalId)
     }, [])
 
     useEffect(() => {
@@ -52,7 +55,7 @@ const PaymentSuspense = () => {
                         Ожидаем поступление...
                     </PageTitle>
                     <PageDesignator>
-                        Переведите точную сумму в течении 20 минут по следующим реквизитам:
+                        Переведите точную сумму в течении 14 минут по следующим реквизитам:
                     </PageDesignator>
                     <PaymentCard />
                     {timeout > 0 && <Timer timeout={timeout} />}

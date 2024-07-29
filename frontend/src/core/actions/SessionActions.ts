@@ -68,11 +68,10 @@ export const _verify_session = ({session_uid, merchant_uid}: {session_uid: strin
                 dispatch(sessionSlice.actions.sessionVerified_pending(data))
                 break
             }
-            /here obrabotat
-            // case "SUCCESS": {
-            //     dispatch(sessionSlice.actions._sessionVerified_success(data))
-            //     break
-            // }
+            case "SUCCESS": {
+                dispatch(sessionSlice.actions._sessionVerified_success(data))
+                break
+            }
             // case "ERROR": {
             //     dispatch(sessionSlice.actions._sessionVerified_error(data))
             //     break

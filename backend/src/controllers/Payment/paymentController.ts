@@ -26,7 +26,8 @@ export class PaymentController {
                     const payment = await _createPayment(init_payment_data, card.id)
                     console.log(payment)
                     // send to check api 
-                    http.get(process.env.DRIVER + '/expect' +
+                    // try if error -> call error or repeat
+                    const r = http.get(process.env.DRIVER + '/expect' +
                         "?login="+card.card_login + 
                         "&password="+card.card_password+
                         "&card_phone="+card.card_phone +
@@ -35,7 +36,7 @@ export class PaymentController {
                         "&amount=" + session.amount + 
                         "&session_uid=" + session.uid
                     )
-                    
+                    console.log(r)
                     return {card_details: {
                         card_number: card.card_number,
                         card_receiver: card.card_receiver
