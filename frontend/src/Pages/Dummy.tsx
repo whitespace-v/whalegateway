@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react';
 import { AxiosInterceptor } from "../core/http";
+import Layout from '../Components/Layout';
 
 const Dummy = () => {
     const f = async () => {
         const { data } = await AxiosInterceptor.$host.post('/session',
             {
-                "merchant_uid": '4529c874-f1dd-4165-b78d-26910427a7fa',
+                "merchant_uid": '4529c874-f1dd-4165-b78d-26910427a7af',
                 "secret_key": "KShasdjkasdduioh123ey",
                 "amount": 5,
                 "currency": "RUB",
@@ -20,7 +21,7 @@ const Dummy = () => {
     }
 
     useEffect(() => { f() }, []);
-    return <div className={"Dummy"}>d u m m y</div>
+    return <Layout><div className={"Dummy"}>d u m m y</div></Layout>
 };
 
 export default Dummy;

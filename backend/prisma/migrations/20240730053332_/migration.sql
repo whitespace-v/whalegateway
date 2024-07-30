@@ -2,7 +2,7 @@
 CREATE TYPE "Currency" AS ENUM ('RUB');
 
 -- CreateEnum
-CREATE TYPE "Status" AS ENUM ('PENDING', 'SUCCESS', 'ERROR', 'EXITED');
+CREATE TYPE "Status" AS ENUM ('PROCESS', 'PENDING', 'SUCCESS', 'ERROR', 'EXITED');
 
 -- CreateEnum
 CREATE TYPE "PaymentType" AS ENUM ('default', 'sberbank', 'alfabank', 'tinkoff', 'raiffeisen');
@@ -36,7 +36,6 @@ CREATE TABLE "Session" (
     "paid" BOOLEAN NOT NULL,
     "metadata" JSONB NOT NULL,
     "created_at" TEXT NOT NULL,
-    "stage" INTEGER NOT NULL,
 
     CONSTRAINT "Session_pkey" PRIMARY KEY ("id")
 );

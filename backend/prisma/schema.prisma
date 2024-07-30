@@ -64,7 +64,7 @@ model Card {
   card_cvv        String
   card_valid_thru String
   card_phone      String
-  card_login      String
+  card_login      String      @unique
   card_password   String
   card_pin        String
   card_secret     String

@@ -3,7 +3,6 @@ import { v4 as uuidv4 } from 'uuid';
 import { Pool } from "../../Pool";
 import { __init_session_data, __init_session_fetch_request_data } from "../../models/session_models";
 import { Currency, Status } from "@prisma/client";
-import { _findCard } from "../Payment/_findCard";
 import { _createPayment } from "../Payment/_createPayment";
 
 export class SessionController {
@@ -24,8 +23,7 @@ export class SessionController {
                             metadata: init_session_data.metadata,
                             created_at: Date.now().toString(),
                             status: Status["PROCESS"],
-                            paid: false,
-                            stage: 0
+                            paid: false
                         }
                     })
                     if (session){
@@ -92,6 +90,10 @@ export class SessionController {
                                     where: {uid: session.uid},
                                     data: {status: "EXITED", paid: false}
                                 }) 
+                                await Pool.X.card.update({
+                                    where: {id: payment.card_id},
+                                    data: {busy: false}
+                                })
                                 Console.log('green', '[!] EXITED')
                                 return { session: {status: "EXITED"}}
                             } else {

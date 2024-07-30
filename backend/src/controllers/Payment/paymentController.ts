@@ -4,7 +4,6 @@ import { Console } from "../../helpers/Console";
 import { __init_payment_data } from "../../models/session_models";
 import {_createPayment} from "./_createPayment";
 import {_findCard} from "./_findCard";
-import {_setCandidateBusy} from "./_setCandidateBusy";
 import http from "http"
 
 export class PaymentController {
@@ -22,21 +21,24 @@ export class PaymentController {
                 const card = await _findCard(init_payment_data.payment_type)
                 if (card && card.id){
                     console.log(card); 
-                    // await _setCandidateBusy({card_id: card.id})
+                    await Pool.X.card.update({
+                        where: {id: card.id},
+                        data: {busy: true}
+                    })
                     const payment = await _createPayment(init_payment_data, card.id)
                     console.log(payment)
-                    // send to check api 
-                    // try if error -> call error or repeat
-                    const r = http.get(process.env.DRIVER + '/expect' +
-                        "?login="+card.card_login + 
-                        "&password="+card.card_password+
-                        "&card_phone="+card.card_phone +
-                        "&payment_type=" +card.payment_type +
-                        "&timestamp=" + payment.created_at +
-                        "&amount=" + session.amount + 
-                        "&session_uid=" + session.uid
-                    )
-                    console.log(r)
+                    // TODO ___________________________________________try if error -> call error or repeat
+                        const r = http.get(process.env.DRIVER + '/expect' +
+                            "?login="+card.card_login + 
+                            "&password="+card.card_password+
+                            "&card_phone="+card.card_phone +
+                            "&payment_type=" +card.payment_type +
+                            "&timestamp=" + payment.created_at +
+                            "&amount=" + session.amount + 
+                            "&session_uid=" + session.uid
+                        )
+                        console.log(r)
+                    
                     return {card_details: {
                         card_number: card.card_number,
                         card_receiver: card.card_receiver
@@ -80,6 +82,10 @@ export class PaymentController {
                                 paid: true,
                                 status: "SUCCESS"
                             }
+                        })
+                        await Pool.X.card.update({
+                            where: {card_login: query.card_login},
+                            data: {busy: false}
                         })
                         Console.log('green','[+] paid successfully')
                         return {"status_code": 201, "message": "Paid successfully"}

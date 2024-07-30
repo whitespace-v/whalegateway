@@ -16,17 +16,18 @@ class MainHandler(tornado.web.RequestHandler):
         session_uid = self.get_argument("session_uid", None, True)
         driver = Driver(login, password, card_phone, payment_type, session_timestamp, amount)
         status = "PENDING"
-        result = json.dumps({"data": {'from': 'Никита Андреевич Б.', 'time_paid': 1722002639000}, "status": 'SUCCESS', "session_uid": session_uid})
-        r = requests.post("http://localhost:5000/payment/paid/", json=result)
+        # result = json.dumps({"data": {'from': 'Никита Андреевич Б.', 'time_paid': 1722002639000}, "status": 'SUCCESS', "session_uid": session_uid})
+        # r = requests.post("http://localhost:5000/payment/paid/", json=result)
         while status != "SUCCESS" and int(str(int(time.time())) + "000") <= int(session_timestamp) + 840000:
             transaction = await driver.auth()
+            time.sleep(999999)
             print(transaction)
             # если пришли
             if transaction:
                 print(transaction)
                 status = "SUCCESS"
                 # send to api 
-                result = json.dumps({"data": transaction, "status": 'SUCCESS', "session_uid": session_uid})
+                result = json.dumps({"data": transaction, "status": 'SUCCESS', "session_uid": session_uid, "card_login": login})
                 r = requests.post("http://localhost:5000/payment/paid/", json=result)
                 print(r)
             # если срок сессии вышел 
