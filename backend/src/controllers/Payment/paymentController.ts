@@ -18,7 +18,10 @@ export class PaymentController {
                     where: {uid: init_payment_data.session_uid},
                     data: {status: "PENDING"}
                 }) 
-                const card = await _findCard(init_payment_data.payment_type)
+                let card = null
+                while (!card) {
+                    card = await _findCard(init_payment_data.payment_type)
+                }
                 if (card && card.id){
                     console.log(card); 
                     await Pool.X.card.update({

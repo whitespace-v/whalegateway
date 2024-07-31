@@ -1,12 +1,12 @@
 import re
 from datetime import datetime
 import math
-from bs4 import BeautifulSoup as bs
+from bs4 import BeautifulSoup
 import requests
 from playwright.async_api import async_playwright, expect
 import time
 from config.config import get_random_headers
-
+import nodriver
 
 class Driver:
     def __init__(self, login, password, card_phone, payment_type, session_timestamp, amount):
@@ -37,37 +37,80 @@ class Driver:
     async def auth(self):
         print('[Driver]: Authorizing')
         try:
-            async with async_playwright() as p:
-                browser = await p.firefox.launch(headless=False)
-                page = await browser.new_page()
-                await page.goto("https://online.sberbank.ru/CSAFront/index.do", timeout=0)
-                await page.get_by_placeholder("Введите логин").fill(self.user_metadata["login"])
-                await page.get_by_placeholder("Пароль").fill(self.user_metadata["password"])
-                await page.keyboard.down("Enter")
-                await page.get_by_text("Кошелёк").hover()
-                await page.goto("https://web7.online.sberbank.ru/pfm/alf", timeout=0)
-                await page.get_by_text("Зачисления").click()
-                await page.get_by_role("option", name="Переводы от людей").click()
-                # TODO: change to wait until load content with history
-                time.sleep(3)
-                # get operation-list and f5
-                r = await page.content()
-                page = bs(r, 'html.parser')
-                operation_list = page.find('div', {'id': 'operation-list'})
-                for operation in operation_list:
-                    transaction = {}
-                    for p_tag, name in zip(operation.findChildren("p"), ["from", "date", "sum"]):
-                        # remove unnecessary span tags
-                        for match in p_tag.findAll('span'): match.unwrap()
-                        # remove unnecessary rub sign
-                        transaction[name] = p_tag.text.replace('₽', '').strip()
-                    self.transactions.append(transaction)
-                await browser.close()
-                for transaction in self.transactions:
-                    # replace month to number
-                    transaction_timestamp = self.extract_transaction_timestamp(transaction)
-                    if transaction_timestamp > int(self.user_metadata["session_timestamp"]) and\
-                            math.ceil(float(self.user_metadata["amount"])) == int(transaction['sum']):
-                        return {"from": transaction['from'], "time_paid": transaction_timestamp}
+            browser = await nodriver.start()
+            page = await browser.get('https://online.sberbank.ru/CSAFront/index.do')
+            log_input = await page.select('input[placeholder="Введите логин"]')
+            await log_input.send_keys(self.user_metadata["login"])
+            pwd_input = await page.select('input[placeholder="Пароль"]')
+            await pwd_input.send_keys(self.user_metadata["password"])
+            enter_button = await page.find("Войти", best_match=True)
+            await enter_button.click()
+            # wait redirect
+            await page.find("Кошелёк", best_match=True)
+            # 
+            history_btn = await page.find("История", best_match=True)
+            await history_btn.click()
+            alf_btn = await page.select('a[data-unit="alf-link-income"]')
+            await alf_btn.click()
+            # page = await browser.get("https://web4-new.online.sberbank.ru/pfm/alf", new_tab=False)
+            t_btn = await page.find('button[data-action="operation-tab-income"]')
+            await t_btn.click()
+            opt = await page.find('Переводы от людей')
+            await opt.click()
+            await page.find('Операции')
+            r = await page.get_content()
+            soup = BeautifulSoup(r, 'html.parser')
+            operation_list = soup.find('div', {'id': 'operation-list'})
+            await page.close()
+            for operation in operation_list:
+                transaction = {}
+                for p_tag, name in zip(operation.findChildren("p"), ["from", "date", "sum"]):
+                    # remove unnecessary span tags
+                    for match in p_tag.findAll('span'): match.unwrap()
+                    # remove unnecessary rub sign
+                    transaction[name] = p_tag.text.replace('₽', '').strip()
+                self.transactions.append(transaction)
+            for transaction in self.transactions:
+                # replace month to number
+                transaction_timestamp = self.extract_transaction_timestamp(transaction)
+                if transaction_timestamp > int(self.user_metadata["session_timestamp"]) and\
+                        math.ceil(float(self.user_metadata["amount"])) == int(transaction['sum']):     
+                    return {"from": transaction['from'], "time_paid": transaction_timestamp}
+            # 
+            # async with async_playwright() as p:
+                # browser = await p.firefox.launch(headless=False)
+                # page = await browser.new_page()
+                # await page.goto("https://online.sberbank.ru/CSAFront/index.do", timeout=0)
+                # await page.get_by_placeholder("Введите логин").fill(self.user_metadata["login"])
+                # await page.get_by_placeholder("Пароль").fill(self.user_metadata["password"])
+                # await page.keyboard.down("Enter")
+
+
+                # await page.get_by_text("Кошелёк").hover()
+                # await page.goto("https://web7.online.sberbank.ru/pfm/alf", timeout=0)
+
+                # await page.get_by_text("Зачисления").click()
+                # await page.get_by_role("option", name="Переводы от людей").click()
+                # # TODO: change to wait until load content with history
+                # time.sleep(3)
+                # # get operation-list and f5
+                # r = await page.content()
+                # page = bs(r, 'html.parser')
+                # operation_list = page.find('div', {'id': 'operation-list'})
+                # for operation in operation_list:
+                #     transaction = {}
+                #     for p_tag, name in zip(operation.findChildren("p"), ["from", "date", "sum"]):
+                #         # remove unnecessary span tags
+                #         for match in p_tag.findAll('span'): match.unwrap()
+                #         # remove unnecessary rub sign
+                #         transaction[name] = p_tag.text.replace('₽', '').strip()
+                #     self.transactions.append(transaction)
+                # await browser.close()
+                # for transaction in self.transactions:
+                #     # replace month to number
+                #     transaction_timestamp = self.extract_transaction_timestamp(transaction)
+                #     if transaction_timestamp > int(self.user_metadata["session_timestamp"]) and\
+                #             math.ceil(float(self.user_metadata["amount"])) == int(transaction['sum']):
+                #         return {"from": transaction['from'], "time_paid": transaction_timestamp}
         except Exception as e:
             print(e)

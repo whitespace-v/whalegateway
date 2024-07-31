@@ -20,26 +20,20 @@ class MainHandler(tornado.web.RequestHandler):
         # r = requests.post("http://localhost:5000/payment/paid/", json=result)
         while status != "SUCCESS" and int(str(int(time.time())) + "000") <= int(session_timestamp) + 840000:
             transaction = await driver.auth()
-            time.sleep(999999)
             print(transaction)
             # если пришли
             if transaction:
-                print(transaction)
+                print("Success", transaction)
                 status = "SUCCESS"
                 # send to api 
                 result = json.dumps({"data": transaction, "status": 'SUCCESS', "session_uid": session_uid, "card_login": login})
                 r = requests.post("http://localhost:5000/payment/paid/", json=result)
-                print(r)
             # если срок сессии вышел 
-            if int(str(int(time.time())) + "000") <= int(session_timestamp) + 840000:
-                #  send as exited
+            if int(str(int(time.time())) + "000") >= int(session_timestamp) + 840000:
                 result = json.dumps({"status": 'EXITED'})
-                requests.post("http://localhost:5000/payment/paid/", data=result)
-            # r = json.dumps({"data": transaction, "status": 'SUCCESS'})
-        # self.write(r)
-
-# 9020542692
-
+                break 
+                # send exit status
+                # requests.post("http://localhost:5000/payment/paid/", data=result)
 
 async def main():
     app = tornado.web.Application([(r"/expect", MainHandler)])
