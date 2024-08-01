@@ -38,6 +38,7 @@ export interface __init_session_data {
     secret_key: string
     amount: number
     currency: Currency
+    domain: string
     description: string
     metadata: any
 }

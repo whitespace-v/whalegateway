@@ -10,6 +10,7 @@ const Dummy = () => {
                 "secret_key": "KShasdjkasdduioh123ey",
                 "amount": 5,
                 "currency": "RUB",
+                "domain": "https://gitlab.com/",
                 "description": "Заказ №19",
                 "metadata": {
                     "order_id": "50000000000",
@@ -17,7 +18,7 @@ const Dummy = () => {
                 }
             }
         )
-        console.log(data)
+        // console.log(data)
     }
 
     useEffect(() => { f() }, []);

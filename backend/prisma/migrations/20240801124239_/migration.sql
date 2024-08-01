@@ -17,7 +17,6 @@ CREATE TABLE "Merchant" (
     "phone" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "secret_key" TEXT NOT NULL,
-    "domain" TEXT NOT NULL,
     "created_at" TEXT NOT NULL,
 
     CONSTRAINT "Merchant_pkey" PRIMARY KEY ("id")
@@ -34,6 +33,7 @@ CREATE TABLE "Session" (
     "status" "Status" NOT NULL,
     "description" TEXT NOT NULL,
     "paid" BOOLEAN NOT NULL,
+    "domain" TEXT NOT NULL,
     "metadata" JSONB NOT NULL,
     "created_at" TEXT NOT NULL,
 
@@ -88,6 +88,9 @@ CREATE UNIQUE INDEX "Session_uid_key" ON "Session"("uid");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Payment_session_uid_key" ON "Payment"("session_uid");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Card_card_login_key" ON "Card"("card_login");
 
 -- AddForeignKey
 ALTER TABLE "Session" ADD CONSTRAINT "Session_merchant_id_fkey" FOREIGN KEY ("merchant_id") REFERENCES "Merchant"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

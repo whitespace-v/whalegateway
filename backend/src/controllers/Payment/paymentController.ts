@@ -20,13 +20,11 @@ export class PaymentController {
                 }) 
                 let card = await _findCard(init_payment_data.payment_type)
                 if (card && card.id){
-                    console.log(card); 
                     await Pool.X.card.update({
                         where: {id: card.id},
                         data: {busy: true}
                     })
                     const payment = await _createPayment(init_payment_data, card.id)
-                    console.log(payment)
                     // TODO ___________________________________________try if error -> call error or repeat
                         const r = http.get(process.env.DRIVER + '/expect' +
                             "?login="+card.card_login + 

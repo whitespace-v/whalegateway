@@ -20,6 +20,7 @@ export class SessionController {
                             amount: init_session_data.amount,
                             currency: Currency[init_session_data.currency],
                             description: init_session_data.description,
+                            domain: init_session_data.domain,
                             metadata: init_session_data.metadata,
                             created_at: Date.now().toString(),
                             status: Status["PROCESS"],
@@ -39,7 +40,8 @@ export class SessionController {
                                 "amount": session.amount,
                                 "created_at": session.created_at,
                                 "description": session.description,
-                                "metadata": session.metadata
+                                "metadata": session.metadata,
+                                "domain":  session.domain
                             }}
                     } else {
                         ///** ---- session is not created ---- **///
@@ -113,7 +115,7 @@ export class SessionController {
                                                 card_number: card.card_number
                                             }
                                         },
-                                        domain: merchant.domain
+                                        domain: session.domain
                                     }
                                 }
                             }
@@ -134,7 +136,7 @@ export class SessionController {
                                         payment_id: payment.id
 
                                     },
-                                    domain: merchant.domain
+                                    domain: session.domain
                                 }
                             }
                         }
@@ -142,7 +144,7 @@ export class SessionController {
                             Console.log('green', '[!] EXITED')
                             return {session: {
                                 status: "EXITED",
-                                domain: merchant.domain
+                                domain: session.domain
                             }}
                         }
                         else if (session.status === "ERROR") {
@@ -161,7 +163,7 @@ export class SessionController {
                                     currency: session.currency,
                                     amount: session.amount,
                                 },
-                                domain: merchant.domain
+                                domain: session.domain
                             }
                         }
                     }    

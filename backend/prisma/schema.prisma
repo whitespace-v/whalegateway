@@ -16,7 +16,6 @@ model Merchant {
   phone      String
   email      String
   secret_key String
-  domain     String
   sessions   Session[]
   created_at String
 }
@@ -32,6 +31,7 @@ model Session {
   status      Status
   description String
   paid        Boolean
+  domain      String
   metadata    Json
   payment     Payment[]
   created_at  String

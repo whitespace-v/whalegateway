@@ -11,7 +11,7 @@ const merchantToCreate = {
     phone: "89532084008",
     email: "giga@gmail.com",
     secret_key: "KShasdjkasdduioh123ey",
-    domain: "https://vk.com/",
+    // domain: "https://vk.com/",
     created_at: Date.now().toString()
 }
 
