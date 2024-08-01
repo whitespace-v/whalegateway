@@ -69,8 +69,8 @@ const Payment = () => {
                     <div className={classes["Payment__content_payment-type"]}>
                         {[
                             { payment_image: sberbank_svg, payment_type: __payment_types.sberbank },
-                            { payment_image: alfabank_svg, payment_type: __payment_types.alfabank },
-                            { payment_image: tinkoff_svg, payment_type: __payment_types.tinkoff }
+                            // { payment_image: alfabank_svg, payment_type: __payment_types.alfabank },
+                            // { payment_image: tinkoff_svg, payment_type: __payment_types.tinkoff }
                         ].map((i, id) => (
                             <div className={classes["Payment__content_payment-type_item"]} key={id}
                                 onClick={() => selectPaymentHandler(i)}

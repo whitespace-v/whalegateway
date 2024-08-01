@@ -22,6 +22,11 @@ const PaymentSuspense = () => {
     const merchant_uid = searchParams.get("merchant_uid")
 
     useEffect(() => {
+        // instance
+        if (session_uid && merchant_uid) {
+            patch(_verify_session({ session_uid, merchant_uid }))
+        } else navigate('/dummy')
+        // then for every 5 secs
         const intervalId = setInterval(() => {
             if (session_uid && merchant_uid) {
                 patch(_verify_session({ session_uid, merchant_uid }))

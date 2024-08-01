@@ -18,11 +18,7 @@ export class PaymentController {
                     where: {uid: init_payment_data.session_uid},
                     data: {status: "PENDING"}
                 }) 
-                let card = null
-                while (!card) {
-                    card = await _findCard(init_payment_data.payment_type)
-                    !card && await new Promise(resolve => setTimeout(resolve, 5000));
-                }
+                let card = await _findCard(init_payment_data.payment_type)
                 if (card && card.id){
                     console.log(card); 
                     await Pool.X.card.update({
@@ -41,7 +37,7 @@ export class PaymentController {
                             "&amount=" + session.amount + 
                             "&session_uid=" + session.uid
                         )                  
-                    return {card_details: {
+                    return {status: "FOUND", card_details: {
                         card_number: card.card_number,
                         card_receiver: card.card_receiver
                     }}
@@ -49,6 +45,7 @@ export class PaymentController {
                 } else {
                 //** ---- candidate not found.... ---- **///
                 //////////////////////////////////////////// TODO: need to wait into _findCard
+                return {status: "NOT FOUND"}
                 }
             }else {
                 ///** ---- session not found  ---- **///

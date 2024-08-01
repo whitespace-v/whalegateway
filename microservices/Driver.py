@@ -68,6 +68,7 @@ class Driver:
             soup = BeautifulSoup(r, 'html.parser')
             operation_list = soup.find('div', {'id': 'operation-list'})
             await page.close()
+            browser.stop()
             for operation in operation_list:
                 transaction = {}
                 for p_tag, name in zip(operation.findChildren("p"), ["from", "date", "sum"]):
@@ -83,5 +84,7 @@ class Driver:
                         math.ceil(float(self.user_metadata["amount"])) == int(transaction['sum']):     
                     return {"from": transaction['from'], "time_paid": transaction_timestamp}
         except Exception as e:
+            print('[Driver]: Exception, Exited tabs & browser:', e)
             await page.close()
+            browser.stop()
             print(e)

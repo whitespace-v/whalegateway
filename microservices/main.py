@@ -19,11 +19,12 @@ class MainHandler(tornado.web.RequestHandler):
         while status != "SUCCESS" and int(str(int(time.time())) + "000") <= int(session_timestamp) + 840000:
             transaction = await driver.auth()
             if transaction:
-                print("Success", transaction)
+                print('[Driver]: Success')
                 status = "SUCCESS"
                 result = json.dumps({"data": transaction, "status": 'SUCCESS', "session_uid": session_uid, "card_login": login})
                 r = requests.post("http://localhost:5000/payment/paid/", json=result)
             if int(str(int(time.time())) + "000") >= int(session_timestamp) + 840000:
+                print('[Driver]: Self Exited due to session timeout')
                 break 
 async def main():
     app = tornado.web.Application([(r"/expect", MainHandler)])

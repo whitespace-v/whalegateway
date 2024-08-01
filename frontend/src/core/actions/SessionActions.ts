@@ -38,8 +38,17 @@ export const _sessionInit = ({session_uid, payment_type, email}: {session_uid: s
             session_uid
         }
         // fetch card and create payment
-        const {data} = await AxiosInterceptor.$timeHost.post('/payment/init', payment_data)
-        dispatch(sessionSlice.actions._sessionSuccess(data))
+        
+        let status = "NOT FOUND"
+        while (status === "NOT FOUND"){
+            const {data} = await AxiosInterceptor.$timeHost.post('/payment/init', payment_data)
+            status = data.status
+            if (status === "FOUND"){
+                dispatch(sessionSlice.actions._sessionSuccess(data))
+            } else {
+                await new Promise(resolve => setTimeout(resolve, 5000));
+            }
+        }
     } catch (e){
         dispatch(sessionSlice.actions._sessionError(e.message))
     }

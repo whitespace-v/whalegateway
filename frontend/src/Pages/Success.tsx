@@ -65,10 +65,8 @@ const Success = () => {
                         >
                             <div className={classes["Status__content_buttons-item-icon"]} style={{ backgroundImage: `url(${ireturn})` }} />
                             Вернуться на страницу покупателя
-
                         </div>
                     </div>
-
                 </div>
             </div >
         </Layout>
