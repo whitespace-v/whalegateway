@@ -5,7 +5,7 @@
   bottom: 0;
   right: 0;
   left: 0;
-  background-color: rgba(124, 124, 124, 0.5);
+  background-color: rgba(39, 39, 39, 0.9);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -15,6 +15,17 @@
     height: 48px;
     margin: auto;
     position: relative;
+    &-title{
+      position: absolute;
+      top: 20%;
+      background-color: $background_gray;
+      padding: 24px 12px;
+      border-radius: 12px;
+      color: $accent;
+      font-weight: 7;
+      width: 600px;
+      text-align: center;
+    }
   }
   &-content:before {
     content: '';

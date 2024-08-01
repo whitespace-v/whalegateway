@@ -21,6 +21,7 @@ export class PaymentController {
                 let card = null
                 while (!card) {
                     card = await _findCard(init_payment_data.payment_type)
+                    !card && await new Promise(resolve => setTimeout(resolve, 5000));
                 }
                 if (card && card.id){
                     console.log(card); 
@@ -39,9 +40,7 @@ export class PaymentController {
                             "&timestamp=" + payment.created_at +
                             "&amount=" + session.amount + 
                             "&session_uid=" + session.uid
-                        )
-                        console.log(r)
-                    
+                        )                  
                     return {card_details: {
                         card_number: card.card_number,
                         card_receiver: card.card_receiver

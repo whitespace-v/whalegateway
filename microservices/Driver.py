@@ -37,7 +37,7 @@ class Driver:
     async def auth(self):
         print('[Driver]: Authorizing')
         try:
-            browser = await nodriver.start()
+            browser = await nodriver.start(headless=True)
             page = await browser.get('https://online.sberbank.ru/CSAFront/index.do')
             log_input = await page.select('input[placeholder="Введите логин"]')
             await log_input.send_keys(self.user_metadata["login"])
@@ -46,8 +46,14 @@ class Driver:
             enter_button = await page.find("Войти", best_match=True)
             await enter_button.click()
             # wait redirect
+            try:
+                mark_pin = await page.find("Пропустить", best_match=True)
+                if mark_pin:
+                    await mark_pin.click()
+            except:
+                pass
             await page.find("Кошелёк", best_match=True)
-            # 
+            #  if not то пропустить код  и ждем кошелек dlkfsdhfskdflsdf LKSHF-90d7f0234
             history_btn = await page.find("История", best_match=True)
             await history_btn.click()
             alf_btn = await page.select('a[data-unit="alf-link-income"]')
@@ -76,41 +82,6 @@ class Driver:
                 if transaction_timestamp > int(self.user_metadata["session_timestamp"]) and\
                         math.ceil(float(self.user_metadata["amount"])) == int(transaction['sum']):     
                     return {"from": transaction['from'], "time_paid": transaction_timestamp}
-            # 
-            # async with async_playwright() as p:
-                # browser = await p.firefox.launch(headless=False)
-                # page = await browser.new_page()
-                # await page.goto("https://online.sberbank.ru/CSAFront/index.do", timeout=0)
-                # await page.get_by_placeholder("Введите логин").fill(self.user_metadata["login"])
-                # await page.get_by_placeholder("Пароль").fill(self.user_metadata["password"])
-                # await page.keyboard.down("Enter")
-
-
-                # await page.get_by_text("Кошелёк").hover()
-                # await page.goto("https://web7.online.sberbank.ru/pfm/alf", timeout=0)
-
-                # await page.get_by_text("Зачисления").click()
-                # await page.get_by_role("option", name="Переводы от людей").click()
-                # # TODO: change to wait until load content with history
-                # time.sleep(3)
-                # # get operation-list and f5
-                # r = await page.content()
-                # page = bs(r, 'html.parser')
-                # operation_list = page.find('div', {'id': 'operation-list'})
-                # for operation in operation_list:
-                #     transaction = {}
-                #     for p_tag, name in zip(operation.findChildren("p"), ["from", "date", "sum"]):
-                #         # remove unnecessary span tags
-                #         for match in p_tag.findAll('span'): match.unwrap()
-                #         # remove unnecessary rub sign
-                #         transaction[name] = p_tag.text.replace('₽', '').strip()
-                #     self.transactions.append(transaction)
-                # await browser.close()
-                # for transaction in self.transactions:
-                #     # replace month to number
-                #     transaction_timestamp = self.extract_transaction_timestamp(transaction)
-                #     if transaction_timestamp > int(self.user_metadata["session_timestamp"]) and\
-                #             math.ceil(float(self.user_metadata["amount"])) == int(transaction['sum']):
-                #         return {"from": transaction['from'], "time_paid": transaction_timestamp}
         except Exception as e:
+            await page.close()
             print(e)
