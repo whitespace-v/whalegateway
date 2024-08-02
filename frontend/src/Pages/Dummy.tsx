@@ -6,8 +6,8 @@ const Dummy = () => {
     const f = async () => {
         const { data } = await AxiosInterceptor.$host.post('/session',
             {
-                "merchant_uid": '4529c874-f1dd-4165-b78d-26910427a7af',
-                "secret_key": "KShasdjkasdduioh123ey",
+                "merchant_uid": '___',
+                "secret_key": "___",
                 "amount": 5,
                 "currency": "RUB",
                 "domain": "https://gitlab.com/",

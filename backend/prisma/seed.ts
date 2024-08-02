@@ -11,7 +11,6 @@ const merchantToCreate = {
     phone: "89532084008",
     email: "giga@gmail.com",
     secret_key: "KShasdjkasdduioh123ey",
-    // domain: "https://vk.com/",
     created_at: Date.now().toString()
 }
 
@@ -30,71 +29,7 @@ const merchantToCreate = {
 // }
 
 const cardsToCreate = [
-  // { 
-  //   id: 1,
-  //   payment_type    : PaymentType["sberbank"],
-  //   card_number     : "2202206367196362",
-  //   card_login      : "ksdsdfsjkdjsdhjf",
-  //   card_password   : "SDF*^DF)9opu%^D&*F7",
-  //   card_phone      : "79841562341",
-  //   card_holder     : ' ',
-  //   card_receiver   : 'Сергей Александрович А.',
-  //   card_cvv        : '982',
-  //   card_valid_thru : '03/34',
-  //   card_pin        : ' ',
-  //   card_secret     : ' ',
-  //   active          : true,
-  //   busy            : false,
-  // },
-  // { 
-  //   id: 2,
-  //   payment_type    : PaymentType["sberbank"],
-  //   card_number     : "2202206367187221",
-  //   card_login      : "osdfosdfsdfjksdf",
-  //   card_password   : "lskdjfh(*^&*%^68678RTYjkhjdf",
-  //   card_phone      : "79841563495",
-  //   card_holder     : ' ',
-  //   card_receiver   : 'Алексей Николаевич С.',
-  //   card_cvv        : '994',
-  //   card_valid_thru : '03/34',
-  //   card_pin        : ' ',
-  //   card_secret     : ' ',
-  //   active          : true,
-  //   busy            : false,
-  // },
-  // { 
-  //   id: 3,
-  //   payment_type    : PaymentType["sberbank"],
-  //   card_number     : "2202206759545713",
-  //   card_login      : "SFkdjsdfsdfksdfkl",
-  //   card_password   : "fjsdjFFFjkf&*%^*&*62389409",
-  //   card_phone      : "79020542692",
-  //   card_holder     : ' ',
-  //   card_receiver   : 'Корней Георгиевич З.',
-  //   card_cvv        : '671',
-  //   card_valid_thru : '11/33',
-  //   card_pin        : ' ',
-  //   card_secret     : ' ',
-  //   active          : true,
-  //   busy            : false,
-  // },
-  // { 
-  //   id: 4,
-  //   payment_type    : PaymentType["raiffeisen"],
-  //   card_number     : "2200300567811169",
-  //   card_login      : "banan12345999",
-  //   card_password   : "ZSDFLKHDFjk8976sdo87f",
-  //   card_phone      : "79841562620",
-  //   card_holder     : ' ',
-  //   card_receiver   : ' ',
-  //   card_cvv        : ' ',
-  //   card_valid_thru : ' ',
-  //   card_pin        : ' ',
-  //   card_secret     : ' ',
-  //   active          : true,
-  //   busy            : false,
-  // },
-  { //
+  { 
     id: 1,
     payment_type    : PaymentType["sberbank"],
     card_number     : "2202208069490903",
@@ -110,12 +45,12 @@ const cardsToCreate = [
     active          : true,
     busy            : false,
   },
-  {   //
+  {  
     id: 2,
     payment_type    : PaymentType["sberbank"],
     card_number     : "2202208069535061",
     card_login      : "DKLHDFKJDGFjkdfs",
-    card_password   : "psdf-(*(68324hnS",
+    card_password   : "FjkdkjKJDSF844!!",
     card_phone      : "89841564493",
     card_holder     : ' ',
     card_receiver   : 'Матвей Владимирович С.',
@@ -126,7 +61,7 @@ const cardsToCreate = [
     active          : true,
     busy            : false,
   },
-  { //
+  { 
     id: 3,
     payment_type    : PaymentType["sberbank"],
     card_number     : "2202208066675878",
@@ -142,7 +77,7 @@ const cardsToCreate = [
     active          : true,
     busy            : false,
   },
-  { //
+  { 
     id: 4,
     payment_type    : PaymentType["sberbank"],
     card_number     : "2202206770168248",
@@ -158,7 +93,7 @@ const cardsToCreate = [
     active          : true,
     busy            : false,
   },
-  { //
+  { 
     id: 5,
     payment_type    : PaymentType["sberbank"],
     card_number     : "2202206367187221",
